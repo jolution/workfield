@@ -12,6 +12,7 @@
         - [Customize configuration](#customize-configuration)
     - [Contributing](#contributing)
         - [ToDos](#todos)
+    - [Credits](#credits)
     - [License](#license)
 
 <!-- /TOC -->
@@ -107,6 +108,11 @@ Please make sure to update tests as appropriate.
 
 ### ToDos
 
+- [ ] Add new Logo
+- [ ] Add Favicons
+- [ ] Add new Colors
+- [ ] Add new Names
+- [ ] Add Credits
 - [ ] Login Error only shows in Console not in Browser
 - [ ] Translation to english (maybe https://kazupon.github.io/vue-i18n/)
 - [ ] Security Check (php, docker, pwd)
@@ -115,6 +121,10 @@ Please make sure to update tests as appropriate.
 - [ ] Add Email reminder to add time (maybe https://www.freecodecamp.org/news/send-emails-from-your-vue-application/)
 - [ ] Integrate node.js
 - [ ] Add mobile Menu
+
+## Credits
+
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
