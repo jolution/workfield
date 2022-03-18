@@ -1,0 +1,74 @@
+{
+  "name": "team",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "watch:tailwind": "NODE_ENV=development postcss src/assets/css/tailwind.css -o public/dist/tailwind.dist.css -w",
+    "dev:tailwind": "NODE_ENV=development postcss src/assets/css/tailwind.css -o public/dist/tailwind.dist.css",
+    "build:tailwind": "NODE_ENV=production postcss src/assets/css/tailwind.css -o public/dist/tailwind.dist.css",
+    "start": "tsc && node dist/app.js"
+  },
+  "dependencies": {
+    "core-js": "3.10.0",
+    "js-cookie": "^2.2.1",
+    "postcss": "8.2.9",
+    "postcss-cli": "8.3.1",
+    "postcss-import": "14.0.1",
+    "postcss-loader": "5.2.0",
+    "secure-ls": "^1.2.6",
+    "tailwindcss": "2.0.4",
+    "vue": "next",
+    "vue-i18n": "next",
+    "vue-loader": "next",
+    "vue-router": "4",
+    "vuex": "^4",
+    "vuex-persistedstate": "^4.0.0-beta.3",
+    "webpack": "^4"
+  },
+  "devDependencies": {
+    "@vue/cli": "latest",
+    "@vue/cli-plugin-babel": "4.5.12",
+    "@vue/cli-plugin-eslint": "4.5.12",
+    "@vue/cli-service": "4.5.12",
+    "@vue/compiler-sfc": "3.0.11",
+    "babel-eslint": "10.1.0",
+    "eslint": "^6",
+    "eslint-plugin-vue": "7.8.0",
+    "typescript": "next",
+    "vee-validate": "next"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "description": "## Project setup ``` npm install ```",
+  "main": "vue.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jolution/workfield.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jolution/workfield/issues"
+  },
+  "homepage": "https://github.com/jolution/workfield#readme"
+}

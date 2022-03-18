@@ -1,0 +1,24 @@
+{
+  "data": {
+    "slug": "workfield",
+    "siteName": "workfield",
+    "url": "https://example.com",
+    "flickity_carousel_divider": true
+  },
+  "settings": {
+    "isDev": true,
+    "isCompressing": false,
+    "isServer": true
+  },
+  "config": {
+    "distr": "../../../../typo3/",
+    "sourceSCSS": "assets/scss/",
+    "sourceTS": "assets/ts/",
+    "targetCSS": "public/css/",
+    "sourceHTML": "assets/html/",
+    "targetHTML": "public/",
+    "sourceJS": "assets/js/",
+    "targetJS": "public/js/",
+    "targetDistJS": "public/js/"
+    }
+}

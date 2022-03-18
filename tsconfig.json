@@ -1,0 +1,17 @@
+{
+  "files": [
+      "./src/main.ts"
+  ],
+  "compilerOptions": {
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "target": "es6",
+    "removeComments": true,
+  },
+  "include": [
+      "source/bot/*.ts"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}
