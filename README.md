@@ -12,7 +12,9 @@
         - [Customize configuration](#customize-configuration)
     - [Contributing](#contributing)
         - [ToDos](#todos)
-    - [Credits](#credits)
+    - [Color Reference](#color-reference)
+    - [Authors](#authors)
+    - [Contributing](#contributing)
     - [License](#license)
 
 <!-- /TOC -->
@@ -32,6 +34,7 @@ Feel free to contribute.
 ```bash
 npm install
 ```
+
 ## Usage
 
 1. subdomain created in Plesk
@@ -113,6 +116,9 @@ Please make sure to update tests as appropriate.
 - [ ] Add new Colors
 - [ ] Add new Names
 - [ ] Add Credits
+- [ ] Add Sponsors Possibility
+- [ ] Add requirement docs
+- [ ] Maybe add user stories
 - [ ] Login Error only shows in Console not in Browser
 - [ ] Translation to english (maybe https://kazupon.github.io/vue-i18n/)
 - [ ] Security Check (php, docker, pwd)
@@ -122,9 +128,25 @@ Please make sure to update tests as appropriate.
 - [ ] Integrate node.js
 - [ ] Add mobile Menu
 
-## Credits
+## Color Reference
+
+| Color             | Hex                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| White | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff |
+| Black | ![#000](https://via.placeholder.com/10/000?text=+) #000 |
 
 
+## Authors
+
+- [@jolutionDE](https://github.com/jolution)
+
+
+## Contributing
+
+Contributions are always welcome!
+
+See `contributing.md` for ways to get started.
+Please adhere to this project's `code of conduct`.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
