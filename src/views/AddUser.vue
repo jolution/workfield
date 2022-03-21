@@ -187,6 +187,11 @@ export default {
     onSubmit() {
 
       // checkbox return value = "true", so replace it with boolean value
+      /**
+       * TODO: This looks like a workarround for bad type safety.
+       * First of all the check can be for truethy. if (this.employee.rights)
+       * Second why do you abuse numeric for boolean?
+       */
       if (this.employee.rights === true || this.employee.rights == 1){
         this.employee.rights = 1;
       }else{
@@ -198,6 +203,8 @@ export default {
       console.log("Rights  : " + this.employee.rights);
      
       try {
+        // TODO: Always use trippe = syntax. This here is not type safe!
+        // TODO: Not sure why you need to check for empty strings here. Can't view do form validation? There is some isRequired method below. Can't this be checked?
         if (this.employee.username != "" && this.employee.password != "") {
           axios
             .post("php/adduser.php", 
@@ -218,6 +225,7 @@ export default {
                 console.log("Data recieved");
               }
 
+              // TODO: I have the strong feeling that response parsing doesnt belong here
               //if (response.data.status === 0) {
               if (response.data[0].msg){
                 this.msg = response.data[0].msg;
@@ -232,6 +240,7 @@ export default {
               }*/
             })
             .catch(function(error) {
+              // TODO: You should check if axios can do global error handling
               if (error.response) {
                 // Request made and server responded
                 console.log(error.response.data);
@@ -246,6 +255,7 @@ export default {
               }
             });
         } else {
+          //TODO: An alert? Honestly? :-D
           alert("Please enter username");
         }
 

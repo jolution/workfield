@@ -5,6 +5,9 @@ import Cookies from 'js-cookie';
 import SecureLS from "secure-ls";
 const ls = new SecureLS({ isCompression: false });
 
+// TODO: JS Docs
+// TODO: If this is a TS app, than why is this plain js?
+
 const store = createStore({
     state() {
       return {
