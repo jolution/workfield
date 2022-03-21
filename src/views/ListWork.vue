@@ -129,6 +129,7 @@
 
 <script>
 import qs from "qs";
+//TODO: Unused import causes build optimization issues
 import router from "@/router";
 import { computed } from 'vue'
 import * as vuex from 'vuex'
@@ -145,6 +146,7 @@ export default {
       }
     },
     data() {
+      // TODO: Why don't you treat undefined as undefined? Does vue really need empty strings??
       return {
         users: "",
         works: {},
@@ -169,6 +171,7 @@ export default {
     },
     computed: {
       filterWorksByUsers: function(){
+        // TODO: Type safe checks... Truethy checks
         if (this.myUserRights == 1 && this.users != "") {
           return this.works.filter(work => !work.username.indexOf(this.users));
           //return this.works.filter(work => !work.username.indexOf("julian.kasimir"));
@@ -179,6 +182,8 @@ export default {
       },
     },
     mounted() {
+      // TODO: Can be truethy check. Or is this an enum? If it is an enum, why not using string identifiers?
+      // TODO: A great example why you should use typescript by the way. 
       if (this.myUserRights == 1) this.getEmployees();
       this.getworks();
     },
@@ -191,6 +196,7 @@ export default {
           console.log("Date    : " + this.employee.date);*/
 
           try {
+            // TODO: Type safety
             if (this.myUserId != "" && this.myUserRights >= 0) {
             axios
               .post("php/listusers.php",
@@ -447,6 +453,7 @@ export default {
             return formData;
         },
         sendIdentity() {
+          // TODO: Please, please, please, JSON...
             let newworkForm = this.toFormData(this.newwork);
             console.log(newworkForm);
 

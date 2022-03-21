@@ -7,6 +7,12 @@
 /* jshint node: true */
 'use strict';
 
+/**
+ * TODO: You should use JS doc comments for all the methods and consts here.
+ * As this file is plain JS, it should also document the params for methods
+ * This will allow much better coding assistence and automated docs generation
+ */
+
 // Date Options
 // Manual: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 const options = {

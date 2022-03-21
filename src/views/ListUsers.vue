@@ -150,6 +150,7 @@ export default {
         this.getEmployees();
     },
     methods: {
+        // TODO: You should not shortcut method names. deleteEmployee
         delEmployee: function (user_id) {
 
           try {
@@ -330,6 +331,7 @@ export default {
             });*/
         },
         toFormData() {
+          //TODO: See other comment on formdata
             let formData = new FormData();
             for (let key in obj) {
                 formData.append(key, obj[key]);
@@ -358,6 +360,8 @@ export default {
             return null;
         },*/
         recordByID() {
+          // TODO: Can be simplified with a truethy check
+          // TODO: User IDs should NEVER be numeric for security reasons. Use UUIDs instead.
             if (this.user_id > 0) {
                 axios
                     .get("php/get.php", {

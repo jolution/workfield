@@ -7,6 +7,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store.js";
 
+/**
+ * TODO: Isn't there some lazy loading i18n for view? The implementation looks a lot like i18next. 
+ * It doesnt make a lot of sense to hard embed translations. 
+ */
+
 // 1. Ready translated locale messages
 // The structure of the locale message is the hierarchical object structure with each locale as the top property
 const messages = {

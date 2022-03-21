@@ -207,6 +207,7 @@ export default {
   },
   methods: {
     checkLogout() {
+      //TODO: You are using some kind of state managent as i understand. Such things dont belong in presentation layer!
       if ( this.$route.params.logout == ':logout' ){
         // logout
         // alert("logout");
@@ -252,6 +253,7 @@ export default {
     login(e) {
       // Manual: https://www.digitalocean.com/community/tutorials/how-to-set-up-vue-js-authentication-and-route-handling-using-vue-router
       e.preventDefault(); // or form @submit.prevent="handleSubmit">
+      // TODO: Form does not validate?
       if (this.password.length >= this.passwordminlength) {
         //this.$http.post('auth.php', {
         axios
@@ -274,6 +276,8 @@ export default {
           .then((response) => {
             console.log(response.data);
             console.log(response.data[0].status);
+
+            // TODO: WTF does this do?
             if (response.data[0].status === 1) {
                 
               if (response.data[0].msg){

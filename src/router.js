@@ -9,6 +9,9 @@ import Login from "@/views/Login.vue";
 
 import store from './store.js'
 
+// TODO: JS Docs
+// TODO: If this is a TS app, than why is this plain js?
+
 // Manual: https://www.vuemastery.com/blog/vue-router-a-tutorial-for-vue-3/
 
 const routes = [

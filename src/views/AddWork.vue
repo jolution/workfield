@@ -129,6 +129,7 @@ export default {
       },
       msg: "",
       msg_type: "info",
+      // TODO: Should use speaking names
       m: new Date().getMonth() + 1,
       employee: {
         worktime: undefined,
@@ -159,9 +160,12 @@ export default {
     isButtonDisabled() {
       // Stackoverflow: https://stackoverflow.com/a/67073622/14331711
       // If isButtonDisabled has the value of null, undefined, or false, the disabled attribute will not even be included in the rendered <button> element.
+      // TODO: Can be simplified with &&
+      // TODO: Architectural this should be a boolean
       return this.employee.worktime >= 0 ? undefined : "disabled";
     },
     ruleWorkTime(value) {
+      // TODO: What? Boolean or output string?
       // min 0
       // max 192
       return value >= 0 && value <= 192
@@ -179,9 +183,11 @@ export default {
       return 'This is required';
     },*/
     getYearMonthFirst() {
+      // TODO: Cold feeling running down my neck. Check out momentjs
       return new Date().getFullYear() + "-01";
     },
     getYearMonthNow() {
+      // TODO: Cold feeling running down my neck. Check out momentjs
       const month = new Date().getMonth() + 1;
       //return new Date().getFullYear() + "-" + new Date().getMonth();
       return (
@@ -189,6 +195,7 @@ export default {
       );
     },
     toFormData() {
+      // TODO: WHY???? Your backend is PHP, it should handle json in 2022
       let formData = new FormData();
       for (let key in obj) {
         formData.append(key, obj[key]);
@@ -201,6 +208,8 @@ export default {
       console.log("Date    : " + this.employee.date);
 
       try {
+        //TODO: Do a type safe check. 
+        //TODO: Why can a date be a string?
         if (this.myUserId != "" && this.employee.date != "") {
           //&& this.employee.worktime != "") {
           axios
@@ -227,6 +236,7 @@ export default {
                 if (response.data.worktime) {
                   //alert("Worktime saved already, you can overrite");
                   this.employee.worktime = response.data.worktime;
+                  //TODO: Not sure if this is vue specific. But such things dont belong to logic layer.
                   this.button.text = "Save";
                 }
               }
@@ -271,6 +281,7 @@ export default {
 
       try {
         if (
+          // TODO: TYPE SAFE CHECKS!!!! TRIPPLE =
           this.myUserId != "" &&
           this.employee.date != "" &&
           this.employee.worktime != ""
@@ -309,6 +320,7 @@ export default {
                 alert("User does not exist");
               }*/
             })
+            // TODO: Can't you use ES6 here? () => {}
             .catch(function(error) {
               if (error.response) {
                 // Request made and server responded
