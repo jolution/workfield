@@ -1,14 +1,21 @@
-// Created by: Jolution
-// Update Date: 18.10.2021
-// Source: https://gist.github.com/jolution/9b2abbd53a326b8f1b2a13403f12e16f
-// variables.json: https://gist.github.com/jolution/15fc7fbf72530caeef0dbe27d8e2e17d
-// tsconfig.json: https://gist.github.com/jolution/872214c27f9e9e36a718c48ae3853876
+/**
+ * @file This is my gulpfile
+ * @author Julian Kasimir <info@jolution.de>
+ * @copyright Jolution 2022
+ * @version 1.2 - 22.03.2022
+ * @license MIT
+ * @see {@link https://gist.github.com/jolution/9b2abbd53a326b8f1b2a13403f12e16f} Source (Github Gist)
+ * @see {@link https://gist.github.com/jolution/15fc7fbf72530caeef0dbe27d8e2e17d} variables.json (Github Gist)
+ * @see {@link https://gist.github.com/jolution/872214c27f9e9e36a718c48ae3853876} tsconfig.json (Github Gist)
+ */
 
 /* jshint node: true */
 'use strict';
 
-// Date Options
-// Manual: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+/**
+ * Set the date options
+ * @tutorial https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+ */
 const options = {
 	year: 'numeric',
 	month: 'numeric',
@@ -22,12 +29,11 @@ const {
 	series,
 	watch
 } = require("gulp");
+const { Stream } = require("stream");
 
-/*const {
-  exit
-} = require("process");*/
-
-// Include main components
+/**
+ * This file requires the following modules
+ */
 const gulpif = require("gulp-if"),
 	fs = require("fs"),
 	changed = require('gulp-changed'),
@@ -48,7 +54,7 @@ const gulpif = require("gulp-if"),
 	htmlmin = require("gulp-htmlmin"),
 	nunjucks = require("gulp-nunjucks"),
 	webp = require('gulp-webp'),
-	scss = require("gulp-dart-sass"), // alternative: gulp-sass but node-sass deprecated
+	scss = require("gulp-dart-sass"),
 	autoprefixer = require("autoprefixer"),
 	cssnano = require("cssnano"),
 	filesExist = require("files-exist"),
@@ -66,8 +72,13 @@ let isCompressing = variables.settings.isCompressing,
 	isDev = variables.settings.isDev,
 	build;
 
+/** 
+ * Set isDEV Env
+ * @summary If the flag "dev" was passed when starting Gulp, the variable isDev defined as true
+ * @param {string} process.argv[2] - command line flag "--dev"
+ */
 /*
-'check_env', function () {
+function check_env() {
   return new Promise(function (resolve, reject) {
     // gulp --dev
     var env = process.argv[2], isDev;
@@ -88,9 +99,20 @@ let isCompressing = variables.settings.isCompressing,
     }
     resolve();
   });
-});*/
+}
+*/
 
-// Clean assets
+/** 
+ * Del Map assets
+ * @summary Remove map files from the folder as well as SourceMap entries. Only in Developer Mode
+ * @example
+ * // Remove CSS SourceMap Entries
+ * .pipe(replace(/\/\*# sourceMappingURL=.*\/gm, ''))
+ * @example
+ * // Remove JS SourceMap Entries
+ * .pipe(replace(/\/\/# sourceMappingURL=.*\/gm, ''))
+ * @param {requestCallback} cb - The callback that handles the response.
+ */
 function clean(cb) {
 	if (isDev != true) {
 		del([
@@ -104,8 +126,8 @@ function clean(cb) {
 		src(SRC, {
 				base: './'
 			})
-			.pipe(replace(/\/\*# sourceMappingURL=.*/gm, '')) // remove css e.g. /*# sourceMappingURL=style.css.map
-			.pipe(replace(/\/\/# sourceMappingURL=.*/gm, '')) // remove js e.g. //# sourceMappingURL=script.js.map
+			.pipe(replace(/\/\*# sourceMappingURL=.*/gm, ''))
+			.pipe(replace(/\/\/# sourceMappingURL=.*/gm, ''))
 			.pipe(dest('./'));
 
 		log.info(`Delete SourceMap entrys from ${SRC}`);
@@ -114,7 +136,22 @@ function clean(cb) {
 	cb();
 }
 
-function set_env(cb) {
+/**
+ * Output Git Branch name
+ * @summary Output as info message when running Gulp which Git-Branch we are currently on.
+ * @example
+ * // log "👨‍💻 Develop Branch"
+ * log.info("👨‍💻 Develop Branch");
+ * @example
+ * // log "🌎 Master Branch"
+ * log.info("🌎 Master Branch");
+ * @example
+ * // log "✨ Feature Branch"
+ * log.info("✨ Feature Branch");
+ * @see {@link https://www.npmjs.com/package/fancy-log} for further information.
+ * @param {requestCallback} cb - The callback that handles the response.
+ */
+function get_env(cb) {
 	exec("git rev-parse --abbrev-ref HEAD", function (err, stdout, stderr) {
 		const git__branch = stdout.replace(/(\r\n|\n|\r)/gm, ""),
 			regex__feature = new RegExp("feature/feature-*");
@@ -129,7 +166,9 @@ function set_env(cb) {
 			log.info("✨ Feature Branch");
 			//isCompressing = true;
 		} else {
-			//TODO: check for other branch
+			/**
+			 * @todo check for other branch names
+			 */
 			log.warn(`Unknown ${git__branch}, maybe hotfix?`);
 			//isCompressing = variables.settings.isCompressing;
 		}
@@ -139,7 +178,12 @@ function set_env(cb) {
 	cb();
 }
 
-// Error Handler
+/**
+ * Error Handler
+ * @summary Notify error messages with sound
+ * @see {@link https://www.npmjs.com/package/gulp-notify} for further information.
+ * @param {any} err - error message
+ */
 var onError = function (err) {
 	notify.onError({
 		title: "Gulp",
@@ -150,7 +194,12 @@ var onError = function (err) {
 	this.emit("end");
 };
 
-// Static server
+/**
+ * Static server
+ * @summary Static server browserSyncServe 
+ * @see {@link https://browsersync.io/docs/options} for further information.
+ * @param {requestCallback} cb - The callback that handles the response.
+ */
 function browserSyncServe(cb) {
 	if (browsersync.active || isServer == false) {
 		log.info("BrowserSync: Off");
@@ -167,6 +216,12 @@ function browserSyncServe(cb) {
 	cb();
 }
 
+/**
+ * Static server reload
+ * @summary Reload Static server browserSyncReload 
+ * @see {@link https://browsersync.io/docs/options} for further information.
+ * @param {requestCallback} cb - The callback that handles the response.
+ */
 function browserSyncReload(cb) {
 	if (isServer != false) {
 		browsersync.reload();
@@ -174,6 +229,13 @@ function browserSyncReload(cb) {
 	cb();
 }
 
+/**
+ * Minify HTML-Files
+ * @summary Minify HTML-Files
+ * @see {@link https://www.npmjs.com/package/gulp-htmlmin} for further information.
+ * @tutorial https://gulpjs.com/docs/en/api/dest/
+ * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
+ */
 function minify_html() {
 	var SRC = [
 		`${variables.config.sourceHTML}**/*.html`, //select all files
@@ -209,7 +271,13 @@ function minify_html() {
 	);
 }
 
-// SCSS compilation
+/**
+ * SCSS compilation
+ * @summary SCSS compilation
+ * @see {@link https://www.npmjs.com/package/gulp-htmlmin} for further information.
+ * @tutorial https://gulpjs.com/docs/en/api/dest/
+ * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
+ */
 function build_scss() {
 
 	var SRC = variables.config.sourceSCSS + '**/*.scss',
@@ -224,17 +292,6 @@ function build_scss() {
 	];
 
 	var plugins__minify = [
-		/*require("postcss-discard-comments")({
-		  removeAllButFirst: true,
-		  //removeAll: true
-		}),*/
-		/*require("cssnano'"({
-		  preset: ['default', {
-		    discardComments: {
-		      removeAllButFirst: true,
-		    },
-		  }],
-		}),*/
 		cssnano({
 			safe: true,
 			minifyFontValues: {
@@ -271,7 +328,6 @@ function build_scss() {
 				]
 			}).on("error", scss.logError)
 		)
-		// uncss deprecated, use postcss instead
 		/*.pipe(uncss({
 		      //html: ['src/html/** /*.html'],
 		      //html: ['src/html/*.html'],
@@ -305,7 +361,6 @@ function build_scss() {
 		)
 		// replace placeholder date in scss file
 		// .pipe(replace('metadata__update-date', new Date().toLocaleString('de-DE', options)))
-
 		// Source: https://stackoverflow.com/a/34081095/14331711
 		.pipe(gulpif(isDev, replace(/@lastmodified:.*\n/g, `lastmodified:  ${new Date().toLocaleString('de-DE', options)}\n`)))
 		.pipe(gulpif(!isDev, replace(/@lastmodified:.*\n/g, '')))
@@ -316,7 +371,12 @@ function build_scss() {
 	);
 }
 
-// Example Usage: https://github.com/vincentorback/WebP-images-with-htaccess
+/**
+ * Minify images
+ * @summary Minify images
+ * @tutorial https://github.com/vincentorback/WebP-images-with-htaccess
+ * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
+ */
 function minify_img() {
 
 	var SRC = `${variables.config.sourceFileadmin}user_upload/**/*.jpg`,
@@ -331,8 +391,13 @@ function minify_img() {
 	);
 }
 
-// Source: https://www.npmjs.com/package/gulp-typescript
-function minify_ts() {
+/**
+ * Compile TS to JS
+ * @summary Compile TypeScript to JavaScript
+ * @tutorial https://www.npmjs.com/package/gulp-typescript
+ * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
+ */
+function compile_ts() {
 	var SRC = [
 		`${variables.config.sourceTS}**/*.ts`, //select all files
 		`!${variables.config.sourceTS}**/*.min.ts`, //exclude files ends with 'min.ts'
@@ -364,7 +429,11 @@ function minify_ts() {
 	);
 }
 
-// JS Build
+/**
+ * Minify JS
+ * @summary Minify JavaScript-Files
+ * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
+ */
 function minify_js() {
 	var SRC = [
 		`${variables.config.sourceJS}**/*.js`, //select all files
@@ -442,6 +511,11 @@ function minify_js() {
 	);
 }
 
+
+/**
+ * WatchFiles
+ * @summary Check if some files changes
+ */
 function watchFiles(cb) {
 
 	if (isServer === true) {
@@ -460,7 +534,7 @@ function watchFiles(cb) {
 			`!${variables.config.sourceTS}**/_*.ts`, //exclude files starting with '_'
 			`!${variables.config.sourceTS}**/__*.ts`, //exclude files starting with '__'
 		],
-		minify_ts
+		compile_ts
 	);
 
 	// Watch JS Files
@@ -479,10 +553,10 @@ function watchFiles(cb) {
 
 // define complex tasks
 if (isServer === true) {
-	build = series(set_env, clean, browserSyncServe, parallel(build_scss, minify_js, minify_ts, minify_html, minify_img, watchFiles));
+	build = series(get_env, clean, browserSyncServe, parallel(build_scss, minify_js, compile_ts, minify_html, minify_img, watchFiles));
 	exports.watch = parallel(watchFiles, browserSyncServe);
 } else {
-	build = series(set_env, clean, parallel(build_scss, minify_js, minify_ts, minify_html, minify_img, watchFiles));
+	build = series(get_env, clean, parallel(build_scss, minify_js, compile_ts, minify_html, minify_img, watchFiles));
 	exports.watch = watchFiles;
 }
 
@@ -492,7 +566,7 @@ exports.default = build;
 
 exports.clean = clean;
 exports.html = minify_html;
-exports.ts = minify_ts;
+exports.ts = compile_ts;
 exports.js = minify_js;
 exports.img = minify_img;
 exports.css = build_scss;
