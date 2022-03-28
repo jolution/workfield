@@ -111,6 +111,8 @@ Please make sure to update tests as appropriate.
 
 ### ToDos
 
+- [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
+- [ ] When deleting the user, delete the user's data as well.
 - [ ] Add new Logo
 - [ ] Add Favicons
 - [ ] Add new Colors
