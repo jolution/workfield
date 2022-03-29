@@ -14,7 +14,7 @@
 - [workfield](#workfield)
     - [Installation](#installation)
     - [Usage](#usage)
-        - [Userrighs](#userrighs)
+        - [User-rights](#user-rights)
         - [Compiles and hot-reloads for development](#compiles-and-hot-reloads-for-development)
         - [Compiles and minifies for production](#compiles-and-minifies-for-production)
             - [Example](#example)
@@ -36,7 +36,7 @@ In workfield, you jump through time.
 Easy possibles, just one (input) field and a button.
 
 Warning: Early alpha version.
-Feel free to contribute.
+Feel free to [contribute](#contributing).
 
 ## Installation
 
@@ -59,20 +59,20 @@ npm install
 11. upload files via sFTP to the new subdomain
 12. connect via SSH (e.g. "ssh USER@IP")
 13. change directory (e.g. cd /var/www/vhosts/workfield.DOMAIN.de)
-14. install NPM packages (bspw npm i)
+14. install NPM packages (npm i)
 15. install Vue CLI service (npm i @vue/cli-service)
     If node to old, it helps to update or use a newer version with nvm.
     https://heynode.com/tutorial/install-nodejs-locally-nvm/
 16. generate the dist folder with "npm run build
 17. set in Plesk the document root to the dist folder
-18. you now see the first page of workfield in the browser (maybe workfield.yourdomain.org)
+18. you now see the first page of workfield in the browser (maybe workfield.your-domain.org)
 19. the admin user (for the moment) is already pre-registered (maybe: tkirk pwd: shatner)
     username,varchar(100),empty -> tkirk
     pwd,varchar(255),password_hash() PHP function -> shatner
-    rights,int(1),empty -> 1 (see Userrights for other users)
+    rights,int(1),empty -> 1 (see User-rights for other users)
 20. log in and now change the username and password of tkirk
 
-### Userrighs
+### User-rights
 
 both (rights=0/1)
 -> Login, Logout
