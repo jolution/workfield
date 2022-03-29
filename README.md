@@ -21,11 +21,10 @@
         - [Lints and fixes files](#lints-and-fixes-files)
         - [To start the sever, run the following command in the terminal.](#to-start-the-sever-run-the-following-command-in-the-terminal)
         - [Customize configuration](#customize-configuration)
-    - [Contributing](#contributing)
-        - [ToDos](#todos)
     - [Color Reference](#color-reference)
     - [Authors](#authors)
     - [Contributing](#contributing)
+      - [ToDos](#todos)
     - [License](#license)
 
 <!-- /TOC -->
@@ -115,27 +114,6 @@ node index.mjs
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### ToDos
-
-- [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
-- [ ] When deleting the user, delete the user's data as well.
-- [ ] Add new Logo
-- [ ] Add Favicons
-- [ ] Add new Colors
-- [ ] Add new Names
-- [ ] Add Credits
-- [ ] Add Sponsors Possibility
-- [ ] Add requirement docs
-- [ ] Maybe add user stories
-- [ ] Login Error only shows in Console not in Browser
-- [ ] Translation to english (maybe https://kazupon.github.io/vue-i18n/)
-- [ ] Security Check (php, docker, pwd)
-- [ ] Extend this readme.md (maybe https://readme.so/de/editor)
-- [ ] Query security -> mysqli_real_escape_string() and "?" param in SQL
-- [ ] Add Email reminder to add time (maybe https://www.freecodecamp.org/news/send-emails-from-your-vue-application/)
-- [ ] Integrate node.js
-- [ ] Add mobile Menu
-
 ## Color Reference
 
 | Color             | Hex                                                                |
@@ -159,6 +137,27 @@ Please adhere to this project's `code of conduct`.
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+### ToDos
+
+- [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
+- [ ] When deleting the user, delete the user's data as well.
+- [ ] Add new Logo
+- [ ] Add Favicons
+- [ ] Add new Colors
+- [ ] Add new Names
+- [ ] Add Credits
+- [ ] Add Sponsors Possibility
+- [ ] Add requirement docs
+- [ ] Maybe add user stories
+- [ ] Login Error only shows in Console not in Browser
+- [ ] Translation to english (see https://kazupon.github.io/vue-i18n/)
+- [ ] Security Check (php, docker, pwd)
+- [ ] Extend this readme.md (see https://readme.so/de/editor)
+- [ ] Query security -> mysqli_real_escape_string() and "?" param in SQL
+- [ ] Add Email reminder to add time (see https://www.freecodecamp.org/news/send-emails-from-your-vue-application/)
+- [ ] Integrate node.js
+- [ ] Add mobile Menu
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
