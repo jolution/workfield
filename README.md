@@ -117,6 +117,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### ToDos
 
+- [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
+- [ ] When deleting the user, delete the user's data as well.
 - [ ] Add new Logo
 - [ ] Add Favicons
 - [ ] Add new Colors

@@ -70,9 +70,10 @@
                       </svg>
                     </div>
                     <div class="ml-3">
-                      <p class="text-gray-900 whitespace-no-wrap">
+                      <p v-if="work.username" class="text-gray-900 whitespace-no-wrap">
                         {{ work.username }}
                       </p>
+                      <p v-else class="text-gray-600 whitespace-no-wrap">Benutzer entfernt</p>
                     </div>
                   </div>
                 </td>
