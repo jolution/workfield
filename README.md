@@ -24,7 +24,7 @@
     - [Color Reference](#color-reference)
     - [Authors](#authors)
     - [Contributing](#contributing)
-      - [ToDos](#todos)
+    - [Roadmap](#roadmap)
     - [License](#license)
 
 <!-- /TOC -->
@@ -137,7 +137,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-### ToDos
+## Roadmap
 
 - [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
 - [ ] When deleting the user, delete the user's data as well.
