@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "core-js": "3.10.0",
+    "gulp": "^4.0.2",
     "js-cookie": "^2.2.1",
     "postcss": "8.2.9",
     "postcss-cli": "8.3.1",

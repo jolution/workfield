@@ -2,7 +2,7 @@
  * @file This is my gulpfile
  * @author Julian Kasimir <info@jolution.de>
  * @copyright Jolution 2022
- * @version 1.2 - 22.03.2022
+ * @version 1.2 - 29.03.2022
  * @license MIT
  * @see {@link https://gist.github.com/jolution/9b2abbd53a326b8f1b2a13403f12e16f} Source (Github Gist)
  * @see {@link https://gist.github.com/jolution/15fc7fbf72530caeef0dbe27d8e2e17d} variables.json (Github Gist)
@@ -111,10 +111,10 @@ function check_env() {
  * @example
  * // Remove JS SourceMap Entries
  * .pipe(replace(/\/\/# sourceMappingURL=.*\/gm, ''))
- * @param {requestCallback} cb - The callback that handles the response.
+ * @param {callback} cb - The callback that handles the response.
  */
 function clean(cb) {
-	if (isDev != true) {
+	if (isDev !== true) {
 		del([
 			`${variables.config.targetCSS}/map`,
 			`${variables.config.targetJS}/map`,
@@ -149,17 +149,17 @@ function clean(cb) {
  * // log "✨ Feature Branch"
  * log.info("✨ Feature Branch");
  * @see {@link https://www.npmjs.com/package/fancy-log} for further information.
- * @param {requestCallback} cb - The callback that handles the response.
+ * @param {callback} cb - The callback that handles the response.
  */
 function get_env(cb) {
 	exec("git rev-parse --abbrev-ref HEAD", function (err, stdout, stderr) {
 		const git__branch = stdout.replace(/(\r\n|\n|\r)/gm, ""),
 			regex__feature = new RegExp("feature/feature-*");
 
-		if (git__branch == "develop") {
+		if (git__branch === "develop") {
 			log.info("👨‍💻 Develop Branch");
 			//isCompressing = false;
-		} else if (git__branch == "master") {
+		} else if (git__branch === "master") {
 			log.info("🌎 Master Branch");
 			//isCompressing = true;
 		} else if (regex__feature.test(git__branch) === true) {
@@ -198,10 +198,10 @@ var onError = function (err) {
  * Static server
  * @summary Static server browserSyncServe 
  * @see {@link https://browsersync.io/docs/options} for further information.
- * @param {requestCallback} cb - The callback that handles the response.
+ * @param {callback} cb - The callback that handles the response.
  */
 function browserSyncServe(cb) {
-	if (browsersync.active || isServer == false) {
+	if (browsersync.active || isServer === false) {
 		log.info("BrowserSync: Off");
 	} else {
 		log.info("BrowserSync: On");
@@ -220,10 +220,10 @@ function browserSyncServe(cb) {
  * Static server reload
  * @summary Reload Static server browserSyncReload 
  * @see {@link https://browsersync.io/docs/options} for further information.
- * @param {requestCallback} cb - The callback that handles the response.
+ * @param {callback} cb - The callback that handles the response.
  */
 function browserSyncReload(cb) {
-	if (isServer != false) {
+	if (isServer !== false) {
 		browsersync.reload();
 	}
 	cb();
@@ -470,9 +470,9 @@ function minify_js() {
 			preprocess({
 				context: variables.data,
 				/*context: {
-        NODE_ENV: 'production',
-        DEBUG: true,
-      }*/
+				NODE_ENV: 'production',
+				DEBUG: true,
+			  }*/
 			})
 		)
 		.pipe(
