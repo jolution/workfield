@@ -31,11 +31,10 @@
 
 # workfield
 
-workfield is a vue.js 3 "Enterprise App" for dealing with montly employee time.
+workfield is a vue.js 3 "Enterprise App" for dealing with monthly employee time.
 In workfield, you jump through time.
 Easy possibles, just one (input) field and a button.
 
-Its free to use and Open Source.
 Warning: Early alpha version.
 Feel free to contribute.
 
