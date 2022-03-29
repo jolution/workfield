@@ -1,3 +1,14 @@
+
+                                ______ ____________     ______________
+         ___      _________________  /____  __/__(_)_______  /_____  /
+         __ | /| / /  __ \_  ___/_  //_/_  /_ __  /_  _ \_  /_  __  / 
+         __ |/ |/ // /_/ /  /   _  ,<  _  __/ _  / /  __/  / / /_/ /  
+         ____/|__/ \____//_/    /_/|_| /_/    /_/  \___//_/  \__,_/   
+
+
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 <!-- TOC -->
 
 - [workfield](#workfield)
@@ -104,11 +115,6 @@ node index.mjs
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
 ### ToDos
 
 - [ ] Add new Logo
@@ -147,6 +153,10 @@ Contributions are always welcome!
 
 See `contributing.md` for ways to get started.
 Please adhere to this project's `code of conduct`.
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
