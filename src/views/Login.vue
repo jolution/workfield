@@ -9,7 +9,7 @@
             Login {{ username }}
           </h1>
           <p class="text-gray-400 dark:text-gray-400">
-            <span v-if="$route.params.logout == ':logout'"><i18n-t keypath="loggedout" /></span>
+            <span v-if="$route.params.logout === ':logout'"><i18n-t keypath="loggedout" /></span>
             <span v-else><i18n-t keypath="filloutform" /></span>
           </p>
         </div>
@@ -53,7 +53,7 @@
                     class="absolute inset-y-0 right-0 flex items-center pr-4"
                     @click="switchVisibilityPassword()"
                   >
-                    <div v-if="passwordFieldType == 'text'">
+                    <div v-if="passwordFieldType === 'text'">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -75,7 +75,7 @@
                         />
                       </svg>
                     </div>
-                    <div v-else-if="passwordFieldType == 'password'">
+                    <div v-else-if="passwordFieldType === 'password'">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -207,7 +207,7 @@ export default {
   },
   methods: {
     checkLogout() {
-      if ( this.$route.params.logout == ':logout' ){
+      if ( this.$route.params.logout === ':logout' ){
         // logout
         // alert("logout");
         this.deleteUserId();
@@ -297,11 +297,11 @@ export default {
                   // Manual: https://router.vuejs.org/guide/essentials/navigation.html
 
                   // normal users
-                  if (this.rights == 0){
+                  if (this.rights === 0){
                     router.push("/add-work");
 
                   // admins
-                  }else if (this.rights == 1){
+                  }else if (this.rights === 1){
                     router.push("/list-work");
 
                   // guests
@@ -313,6 +313,7 @@ export default {
               }
             }else{
               console.log("Login fehlgeschlagen");
+              this.msg = "Login fehlgeschlagen";
             }
           })
           .catch(function(error) {
@@ -330,7 +331,8 @@ export default {
             }
           });
       } else {
-        alert("Insert Password");
+        //alert("Insert Password");
+        this.msg = "Insert Password";
       }
     },
     /*async login() {
