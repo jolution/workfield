@@ -25,43 +25,11 @@ if( isset($_POST['user_id']) && isset($_POST['user_rights'])){
       $response[] = $row;
    }
 
-   //if ($result->num_rows === 0){
-      //$msg = sprintf('%s Stunden wurden für Monat %s gespeichert',$worktime,$date);
-      //$msg = "Ausgabe ausgeführt";
-      //$msg_type = 'info';
-   //}
-
 }else{
     $response = [];
     //$msg = 'Keine Benutzerangaben gefunden';
     //$msg_type = 'error';
 }
 
-/*$response[] = array(
-   'status'=> $response !== null ? 1:0,
-   'status_text' => $response,
-   'msg' => $msg,
-   'msg_type' => $msg_type,
-);*/
-
 echo json_encode($response);
 exit;
-
-/*
-include "config.php";
-
-$condition = "1";
-if(isset($_GET['userid'])){
-   $condition = " id=".$_GET['userid'];
-}
-$userData = mysqli_query($con,"SELECT id,username,name,email,rights FROM users WHERE ".$condition); //without pwd
-
-$response = array();
-
-while($row = mysqli_fetch_assoc($userData)){
-
-   $response[] = $row;
-}
-
-echo json_encode($response);
-exit;*/

@@ -8,12 +8,7 @@ include "config.php";
 if( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['rights']) ){
     $username = strip_tags( trim( $_POST['username'] ) );
     $password = strip_tags( trim( $_POST['password'] ) );
-
-    if (isset($_POST['rights'])){
-        $rights = (int) $_POST['rights'];
-    } else {
-        $rights = '0';
-    }
+    $rights = (int) $_POST['rights']; // || '0';
 
     $username = $mysqli->real_escape_string($username);
     $password = $mysqli->real_escape_string($password);
@@ -28,8 +23,6 @@ if( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['righ
     /* Select queries return a resultset */
     $result = $mysqli->query($sql);
 
-    
-    
     $response = mysqli_fetch_assoc($result);
 
     //if ($result->num_rows === 0){

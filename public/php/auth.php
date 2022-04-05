@@ -6,9 +6,6 @@ header('Content-Type: application/json');
 include "config.php";
 $status = 0;
 $status_content = false;
-/*$data = json_decode(file_get_contents("php://input"));
-$username = $data->username;
-$password = $data->password;*/
 
 if(isset($_POST['username']) && isset($_POST['password'])){
     $username = strip_tags( trim( $_POST['username'] ) );
@@ -64,45 +61,3 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 
 echo json_encode($response);
 exit;
-
-/*
-include "config.php";
-
-$data = json_decode(file_get_contents("php://input"));
-$request = $data->request;
-if($request == 1){
-    $username = $data->username;
-    $password = $data->password;
-
-    // secure: username only x chars and so one, no sonderzeichen
-    // https://stackoverflow.com/questions/26222549/php-mysql-check-if-username-and-password-are-in-the-database
-
-    $query = sprintf("SELECT username FROM users WHERE (username='%s' AND pwd='%s');",$username,$password);
-    $userData = mysqli_query($con,$query);
-    $response = array();
-    while($row = mysqli_fetch_assoc($userData)){
-        $response[] = $row;
-    }
-
-    if (mysql_num_rows($row) > 0 ) {
-        $response[] = array('status'=>1);
-    }else{    
-        $response[] = array('status'=>0);
-    }
-    echo json_encode($response);
-    exit;
-}*/
-/*
-if(isset($_POST['username']) && isset($_POST['pwd'])){
-    $condition = " username=".$_POST['username'];
-    $condition .= " AND pwd=".$_POST['pwd'];
-
-    $userData = mysqli_query($con,"SELECT username FROM users WHERE ".$condition);
-    $response = array();
-    while($row = mysqli_fetch_assoc($userData)){
-    $response[] = $row;
-    }
-
-    echo json_encode($response);
-}
-exit;*/

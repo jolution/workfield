@@ -115,8 +115,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Color Reference
 
-| Color             | Hex                                                                |
-| ----------------- | ------------------------------------------------------------------ |
+| Color | Hex                                                     |
+|-------|---------------------------------------------------------|
 | White | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff |
 | Black | ![#000](https://via.placeholder.com/10/000?text=+) #000 |
 
