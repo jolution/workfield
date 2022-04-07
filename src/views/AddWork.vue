@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center  bg-gray-50 dark:bg-gray-900">
+  <div class="flex items-center bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto">
       <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
         <div class="text-center">
@@ -13,20 +13,19 @@
           </p>
         </div>
         <div class="m-7">
-          <!--<form id="form" @submit.prevent="onSubmit">-->
           <Form v-slot="{ errors }" @submit="onSubmit">
             <div class="mb-6">
-              <label class="block mb-2 text-sm text-gray-600 dark:text-gray-400"><i18n-t keypath="username" /></label>
+              <label class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                ><i18n-t keypath="username"
+              /></label>
               {{ myUserName }} ({{ myUserId }})
             </div>
             <div class="mb-6">
               <label
                 for="month"
                 class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-              ><i18n-t keypath="month" /> *</label>
-              <!-- DONT: ⛔️  v-model on input tag -->
-              <!-- DO: ✅  v-model on field tag -->
-              <!--:value="getYearMonthNow()"-->
+                ><i18n-t keypath="month" /> *</label
+              >
               <Field
                 v-slot="{ field }"
                 v-model.lazy="employee.date"
@@ -38,7 +37,7 @@
                   :min="getYearMonthFirst()"
                   :max="getYearMonthNow()"
                   :rules="isRequired"
-                >
+                />
               </Field>
               <ErrorMessage as="p" name="month" />
             </div>
@@ -46,7 +45,8 @@
               <label
                 for="worktime"
                 class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-              ><i18n-t keypath="worktime" /> *</label>
+                ><i18n-t keypath="worktime" /> *</label
+              >
               <Field
                 v-slot="{ field }"
                 v-model="employee.worktime"
@@ -57,7 +57,7 @@
                   type="number"
                   :rules="ruleWorkTime"
                   class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-                >
+                />
               </Field>
               <ErrorMessage as="p" name="worktime" />
             </div>
@@ -70,8 +70,11 @@
               >
                 <span v-if="employee.worktime > 0">
                   {{ button.text }} {{ employee.worktime }}
-                  <i18n-t keypath="hours" /></span>
-                <span v-else-if="employee.worktime == 0">{{ button.text }} <i18n-t keypath="holiday" /></span>
+                  <i18n-t keypath="hours"
+                /></span>
+                <span v-else-if="employee.worktime === 0"
+                  >{{ button.text }} <i18n-t keypath="holiday"
+                /></span>
                 <span v-else>{{ button.text }}</span>
               </button>
             </div>
@@ -136,18 +139,8 @@ export default {
       },
     };
   },
-  /*computed: {
-    // Manual: https://next.vuex.vuejs.org/guide/state.html#single-state-tree
-    user_id () {
-      return store.state.user_id
-    },
-    username () {
-      return store.state.username
-    }
-  },*/
   watch: {
-    "employee.date": function(value) {
-      //console.log(value);
+    "employee.date": function (value) {
       this.getWorkTime();
     },
   },
@@ -157,8 +150,6 @@ export default {
   },
   methods: {
     isButtonDisabled() {
-      // Stackoverflow: https://stackoverflow.com/a/67073622/14331711
-      // If isButtonDisabled has the value of null, undefined, or false, the disabled attribute will not even be included in the rendered <button> element.
       return this.employee.worktime >= 0 ? undefined : "disabled";
     },
     ruleWorkTime(value) {
@@ -171,19 +162,11 @@ export default {
     isRequired(value) {
       return value ? true : "This field is required";
     },
-    /*isRequired(value) {
-      if (value && value.trim()) {
-        return true;
-      }
-
-      return 'This is required';
-    },*/
     getYearMonthFirst() {
       return new Date().getFullYear() + "-01";
     },
     getYearMonthNow() {
       const month = new Date().getMonth() + 1;
-      //return new Date().getFullYear() + "-" + new Date().getMonth();
       return (
         new Date().getFullYear() + "-" + (month < 10 ? "0" + month : "" + month)
       );
@@ -201,8 +184,7 @@ export default {
       console.log("Date    : " + this.employee.date);
 
       try {
-        if (this.myUserId != "" && this.employee.date != "") {
-          //&& this.employee.worktime != "") {
+        if (this.myUserId !== "" && this.employee.date !== "") {
           axios
             .post(
               "php/getwork.php",
@@ -225,19 +207,12 @@ export default {
                 console.log(response.data);
                 console.log("Data recieved");
                 if (response.data.worktime) {
-                  //alert("Worktime saved already, you can overrite");
                   this.employee.worktime = response.data.worktime;
                   this.button.text = "Save";
                 }
               }
-              /*
-              if (response.data[0].status == 1) {
-                alert("Login Successfully");
-              } else {
-                alert("User does not exist");
-              }*/
             })
-            .catch(function(error) {
+            .catch(function (error) {
               if (error.response) {
                 // Request made and server responded
                 console.log(error.response.data);
@@ -259,21 +234,11 @@ export default {
       }
     },
     onSubmit() {
-      //let newEmployeeForm = this.toFormData(this.newEmployee);
-      //console.log(newEmployeeForm);
-      //console.log("Start add work");
-      //console.clear();
-      /*
-      console.log("User ID : " + this.myUserId );
-      console.log("Worktime: " + this.employee.worktime);
-      console.log("Date    : " + this.employee.date);
-      */
-
       try {
         if (
-          this.myUserId != "" &&
-          this.employee.date != "" &&
-          this.employee.worktime != ""
+          this.myUserId !== "" &&
+          this.employee.date !== "" &&
+          this.employee.worktime !== ""
         ) {
           axios
             .post(
@@ -296,20 +261,12 @@ export default {
                 console.log("Data recieved");
               }
 
-              //if (response.data.status === 0) {
               if (response.data[0].msg) {
                 this.msg = response.data[0].msg;
                 this.msg_type = response.data[0].msg_type;
               }
-
-              /*
-              if (response.data[0].status == 1) {
-                alert("Login Successfully");
-              } else {
-                alert("User does not exist");
-              }*/
             })
-            .catch(function(error) {
+            .catch(function (error) {
               if (error.response) {
                 // Request made and server responded
                 console.log(error.response.data);
@@ -340,7 +297,7 @@ export default {
             },
           })
           .then((response) => (this.users = response))
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       }
@@ -354,9 +311,8 @@ export default {
           },
         })
         .then((response) => (this.users = response))
-        /*.then(function (response) {
-                            data.users = response.data;})*/
-        .catch(function(error) {
+
+        .catch(function (error) {
           console.log(error);
         });
       return null;

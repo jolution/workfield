@@ -20,39 +20,26 @@
 </template>
 
 <script>
-  // Manual: https://laravel-news.com/building-a-modal-with-vue-and-tailwind
-  export default {
-    props: {
-      showing: {
-        required: true,
-        type: Boolean,
-      },
+export default {
+  props: {
+    showing: {
+      required: true,
+      type: Boolean,
     },
-    watch: {
-      showing(value) {
-        if (value) {
-          return document.querySelector("body").classList.add("overflow-hidden");
-        }
+  },
+  watch: {
+    showing(value) {
+      if (value) {
+        return document.querySelector("body").classList.add("overflow-hidden");
+      }
 
-        document.querySelector("body").classList.remove("overflow-hidden");
-      },
+      document.querySelector("body").classList.remove("overflow-hidden");
     },
-    methods: {
-      close() {
-        this.$emit("close");
-      },
+  },
+  methods: {
+    close() {
+      this.$emit("close");
     },
-  };
+  },
+};
 </script>
-
-<!--
-<style scoped>
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: all 0.4s;
-  }
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-  }
-</style>-->

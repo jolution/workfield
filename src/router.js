@@ -7,22 +7,18 @@ import ListUsers from "@/views/ListUsers.vue";
 import ListWork from "@/views/ListWork.vue";
 import Login from "@/views/Login.vue";
 
-import store from './store.js'
-
-// Manual: https://www.vuemastery.com/blog/vue-router-a-tutorial-for-vue-3/
+import store from "./store.js";
 
 const routes = [
   {
     path: "/login",
     name: "Einloggen",
     component: Login,
-    //component: () => import('../components/Login.vue')
   },
   {
     path: "/login/:logout",
     name: "Ausloggen",
     component: Login,
-    //component: () => import('../components/Login.vue')
   },
   {
     path: "/",
@@ -63,7 +59,7 @@ const routes = [
       requiresAuth: true,
     },
   },
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
+  { path: "/:pathMatch(.*)*", name: "not-found", component: NotFound },
 ];
 
 const router = createRouter({
@@ -73,33 +69,36 @@ const router = createRouter({
 });
 
 router.resolve({
-  name: 'not-found',
-  params: { pathMatch: ['not', 'found'] },
-}).href // '/not/found'
+  name: "not-found",
+  params: { pathMatch: ["not", "found"] },
+}).href; // '/not/found'
 
 router.beforeEach((to, from, next) => {
-
-  //console.log(store.state.username);
-  //const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-  if (to.matched.some(record => record.meta.requiresAuth) && !store.state.username) {
+  if (
+    to.matched.some((record) => record.meta.requiresAuth) &&
+    !store.state.username
+  ) {
     // Redirect to the login page if the user is not logged in
     // and the route meta record is requires auth
-    next('/login')
-
-  }else if (to.matched.some(record => record.meta.requiresAdmin) && store.state.rights == 1 && store.state.username) {
+    next("/login");
+  } else if (
+    to.matched.some((record) => record.meta.requiresAdmin) &&
+    store.state.rights == 1 &&
+    store.state.username
+  ) {
     // Redirect to the homepage page if the user is logged in
     // and the route meta record is requires guest
-    next()
-
-  }else if (to.matched.some(record => (
-
-      // Redirect to the preview page if the user is logged in
-      // but has no role assigned or the role is user
-      record.meta.requiresAuth &&
-      record.meta.requiresAdmin)) && store.state.rights != 1) {
-    next('/')
-    
+    next();
+  } else if (
+    to.matched.some(
+      (record) =>
+        // Redirect to the preview page if the user is logged in
+        // but has no role assigned or the role is user
+        record.meta.requiresAuth && record.meta.requiresAdmin
+    ) &&
+    store.state.rights != 1
+  ) {
+    next("/");
   } else {
     next();
   }

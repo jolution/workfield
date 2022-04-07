@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center  bg-gray-50 dark:bg-gray-900">
+  <div class="flex items-center bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto">
       <div class="max-w-md mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
         <div class="text-center">
@@ -9,7 +9,9 @@
             Login {{ username }}
           </h1>
           <p class="text-gray-400 dark:text-gray-400">
-            <span v-if="$route.params.logout === ':logout'"><i18n-t keypath="loggedout" /></span>
+            <span v-if="$route.params.logout === ':logout'"
+              ><i18n-t keypath="loggedout"
+            /></span>
             <span v-else><i18n-t keypath="filloutform" /></span>
           </p>
         </div>
@@ -19,7 +21,8 @@
               <label
                 for="username"
                 class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-              ><i18n-t keypath="username" /></label>
+                ><i18n-t keypath="username"
+              /></label>
               <input
                 id="username"
                 v-model="username"
@@ -29,13 +32,13 @@
                 required
                 autocomplete="username"
                 class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-              >
+              />
             </div>
             <div class="mb-6">
               <label
                 for="password"
                 class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-              ><i18n-t keypath="password" />
+                ><i18n-t keypath="password" />
               </label>
               <div class="relative">
                 <Field id="password" v-slot="{ field }" name="password">
@@ -48,7 +51,7 @@
                     required
                     autocomplete="current-password"
                     class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-                  >
+                  />
                   <div
                     class="absolute inset-y-0 right-0 flex items-center pr-4"
                     @click="switchVisibilityPassword()"
@@ -151,7 +154,9 @@
     </div>
     <modal :showing="modalShowing" @close="modalShowing = false">
       <h2 class="text-xl font-bold text-gray-900">Example modal</h2>
-      <p class="mb-6">This is example text passed through to the modal via a slot.</p>
+      <p class="mb-6">
+        This is example text passed through to the modal via a slot.
+      </p>
       <button
         class="bg-blue-600 text-white px-4 py-2 text-sm uppercase tracking-wide font-bold rounded-lg"
         @click="modalShowing = false"
@@ -163,17 +168,12 @@
 </template>
 
 <script>
-// state = zustand einer variable also momentaner wert
-// store = ort zum speichern der states bspw vuex@next
-
-//import AuthService from '@/services/AuthService.js';
-//var querystring = require('querystring');
 import { Field, Form, ErrorMessage } from "vee-validate";
 import qs from "qs";
 import router from "@/router";
-import { computed } from 'vue'
-import * as vuex from 'vuex'
-import Modal from '@/components/Modal.vue';
+import { computed } from "vue";
+import * as vuex from "vuex";
+import Modal from "@/components/Modal.vue";
 
 export default {
   name: "Login",
@@ -183,12 +183,12 @@ export default {
     ErrorMessage,
     Modal,
   },
-  setup () {
-    const store = vuex.useStore()
+  setup() {
+    const store = vuex.useStore();
     return {
       myUserName: computed(() => store.state.username),
       myUserRights: computed(() => store.state.rights),
-    }
+    };
   },
   data() {
     return {
@@ -206,8 +206,8 @@ export default {
     this.checkLogout();
   },
   methods: {
-    checkLogout() {
-      if ( this.$route.params.logout === ':logout' ){
+    checkLogout() {
+      if (this.$route.params.logout === ":logout") {
         // logout
         // alert("logout");
         this.deleteUserId();
@@ -237,7 +237,6 @@ export default {
       return null;
     },
     setUserRights() {
-      // Manual: https://next.vuex.vuejs.org/guide/composition-api.html#accessing-state-and-getters
       this.$store.commit("myUserRights", this.rights);
       return null;
     },
@@ -250,16 +249,12 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     login(e) {
-      // Manual: https://www.digitalocean.com/community/tutorials/how-to-set-up-vue-js-authentication-and-route-handling-using-vue-router
-      e.preventDefault(); // or form @submit.prevent="handleSubmit">
+      e.preventDefault();
       if (this.password.length >= this.passwordminlength) {
-        //this.$http.post('auth.php', {
         axios
           .post(
             "php/auth.php",
-            //params: {}
-            // Manual: https://stackoverflow.com/questions/31756756/axios-http-client-how-to-construct-http-post-url-with-form-params
-            //querystring.stringify({
+
             qs.stringify({
               request: 1,
               username: this.username,
@@ -275,48 +270,39 @@ export default {
             console.log(response.data);
             console.log(response.data[0].status);
             if (response.data[0].status === 1) {
-                
-              if (response.data[0].msg){
+              if (response.data[0].msg) {
                 this.msg = response.data[0].msg;
               }
 
-              /*if (response.data === null){
-              this.modalShowing = true;
-              }*/
               if (response.data) {
                 if (response.data.rights) {
                   this.rights = response.data.rights;
                   this.username = response.data.username;
                   this.user_id = response.data.user_id;
-                  //this.username = response.data.username;
-                  //this.$router.push("/");
+
                   this.setUserName();
                   this.setUserId();
                   this.setUserRights();
-                  //store.state.user.authenticated = true;
-                  // Manual: https://router.vuejs.org/guide/essentials/navigation.html
-
                   // normal users
-                  if (this.rights === 0){
+                  if (this.rights === 0) {
                     router.push("/add-work");
 
-                  // admins
-                  }else if (this.rights === 1){
+                    // admins
+                  } else if (this.rights === 1) {
                     router.push("/list-work");
 
-                  // guests
-                  }else {
+                    // guests
+                  } else {
                     router.push("/");
                   }
-                  
                 }
               }
-            }else{
+            } else {
               console.log("Login fehlgeschlagen");
               this.msg = "Login fehlgeschlagen";
             }
           })
-          .catch(function(error) {
+          .catch(function (error) {
             if (error.response) {
               // Request made and server responded
               console.log(error.response.data);
@@ -331,51 +317,9 @@ export default {
             }
           });
       } else {
-        //alert("Insert Password");
         this.msg = "Insert Password";
       }
     },
-    /*async login() {
-      try {
-        if (this.username != "" && this.password != "") {
-          axios
-            .post("php/auth.php", {
-              request: 1,
-              username: this.username,
-              password: this.password,
-            })
-            .then(function(response) {
-              console.log(response);
-              if (response.data[0].status == 1) {
-                alert("Login Successfully");
-              } else {
-                alert("User does not exist");
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-        } else {
-          alert("Please enter username & password");
-        }
-
-        /*const credentials = {
-          username: this.username,
-          password: this.password
-        };
-        const response = await AuthService.login(credentials);
-        this.msg = response.msg;
-
-        const token = response.token;
-        const user = response.user;
-
-        this.$store.dispatch('login', { token, user });
-
-        this.$router.push('/');* /
-      } catch (error) {
-        this.msg = error.response.data.msg;
-      }
-    },*/
   },
 };
 </script>

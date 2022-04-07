@@ -139,7 +139,7 @@ Please make sure to update tests as appropriate.
 
 ## Roadmap
 
-- [ ] Cleanup: Remove unneeded comment-lines
+- [x] Cleanup: Remove unneeded comment-lines
 - [ ] Add Files from CDN to local
 - [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
 - [ ] When deleting the user, delete the user's data as well.
