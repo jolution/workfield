@@ -1,17 +1,19 @@
 {
   "files": [
-      "./src/main.ts"
+    "assets/ts/*.ts"
   ],
   "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
     "sourceMap": true,
     "noImplicitAny": true,
     "target": "es6",
-    "removeComments": true,
+    "removeComments": true
   },
   "include": [
-      "source/bot/*.ts"
+    "source/bot/*.ts"
   ],
   "exclude": [
-      "node_modules"
+    "node_modules"
   ]
 }

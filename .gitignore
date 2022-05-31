@@ -2,3 +2,4 @@ node_modules
 public/php/config*.php
 !public/php/config.sample.php
 !database.sql
+data

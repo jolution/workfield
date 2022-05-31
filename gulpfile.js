@@ -2,11 +2,12 @@
  * @file This is my gulpfile
  * @author Julian Kasimir <info@jolution.de>
  * @copyright Jolution 2022
- * @version 1.2 - 29.03.2022
+ * @version 1.2 - 30.04.2022
  * @license MIT
  * @see {@link https://gist.github.com/jolution/9b2abbd53a326b8f1b2a13403f12e16f} Source (Github Gist)
  * @see {@link https://gist.github.com/jolution/15fc7fbf72530caeef0dbe27d8e2e17d} variables.json (Github Gist)
  * @see {@link https://gist.github.com/jolution/872214c27f9e9e36a718c48ae3853876} tsconfig.json (Github Gist)
+ * @see {@link https://gist.github.com/jolution/139d0f848358a689dbe32ff57836c2ef} tailwind.sconfig.js (Github Gist)
  */
 
 /* jshint node: true */
@@ -16,7 +17,7 @@
  * Set the date options
  * @tutorial https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
  */
-const options = {
+const dateOptions = {
 	year: 'numeric',
 	month: 'numeric',
 	day: 'numeric'
@@ -29,7 +30,7 @@ const {
 	series,
 	watch
 } = require("gulp");
-const { Stream } = require("stream");
+const {Stream} = require("stream");
 
 /**
  * This file requires the following modules
@@ -41,9 +42,9 @@ const gulpif = require("gulp-if"),
 	variablesFile = fs.readFileSync("variables.json"),
 	variables = JSON.parse(variablesFile),
 	postcss = require("gulp-postcss"),
+	tailwindcss = require('tailwindcss'),
 	atImport = require("postcss-import"),
 	jsImport = require("gulp-js-import"),
-	//tailwindcss = require("tailwindcss"),
 	ts = require("gulp-typescript"),
 	tsconfig = require("./tsconfig.json"),
 	//eslint = require('gulp-eslint'),
@@ -65,44 +66,26 @@ const gulpif = require("gulp-if"),
 	replace = require("gulp-replace"),
 	headerComment = require("gulp-header-comment"),
 	preprocess = require("gulp-preprocess"),
-	browsersync = require("browser-sync").create();
+	browsersync = require("browser-sync").create(),
+	minimist = require('minimist');
 
-let isCompressing = variables.settings.isCompressing,
+/**
+ * get Environment
+ * @summary If the flag "dev" was passed when starting Gulp, the variable isEnv defined as (production|development)
+ * @param {string} process.argv[2] - command line flag "--env development" or "--env production"
+ * @see {@link https://github.com/gulpjs/gulp/blob/master/docs/recipes/pass-arguments-from-cli.md}
+ */
+let knownOptions = {
+	string: 'env',
+	default: {env: process.env.NODE_ENV || variables.settings.isEnv || 'production'}
+};
+let envOptions = minimist(process.argv.slice(2), knownOptions);
+
+let isEnv = envOptions.env,
 	isServer = variables.settings.isServer,
-	isDev = variables.settings.isDev,
 	build;
 
-/** 
- * Set isDEV Env
- * @summary If the flag "dev" was passed when starting Gulp, the variable isDev defined as true
- * @param {string} process.argv[2] - command line flag "--dev"
- */
-/*
-function check_env() {
-  return new Promise(function (resolve, reject) {
-    // gulp --dev
-    var env = process.argv[2], isDev;
-    if (env) {
-      if (env == "--dev") {
-        log.info("Dev Mode on");
-        isDev = true;
-      } else {
-        log.info("Dev Mode off");
-        isDev = false;
-      }
-    } else {
-      if (variables.settings.isDev == true) {
-        isDev = true;
-      } else {
-        isDev = false;
-      }
-    }
-    resolve();
-  });
-}
-*/
-
-/** 
+/**
  * Del Map assets
  * @summary Remove map files from the folder as well as SourceMap entries. Only in Developer Mode
  * @example
@@ -114,7 +97,7 @@ function check_env() {
  * @param {callback} cb - The callback that handles the response.
  */
 function clean(cb) {
-	if (isDev !== true) {
+	if (isEnv === 'production') {
 		del([
 			`${variables.config.targetCSS}/map`,
 			`${variables.config.targetJS}/map`,
@@ -122,16 +105,15 @@ function clean(cb) {
 			force: true
 		});
 
-		var SRC = [variables.config.targetCSS + '**/*.css', variables.config.targetJS + '**/*.js'];
+		let SRC = [variables.config.targetCSS + '**/*.css', variables.config.targetJS + '**/*.js'];
 		src(SRC, {
-				base: './'
-			})
+			base: './'
+		})
 			.pipe(replace(/\/\*# sourceMappingURL=.*/gm, ''))
 			.pipe(replace(/\/\/# sourceMappingURL=.*/gm, ''))
 			.pipe(dest('./'));
 
 		log.info(`Delete SourceMap entrys from ${SRC}`);
-
 	}
 	cb();
 }
@@ -151,27 +133,30 @@ function clean(cb) {
  * @see {@link https://www.npmjs.com/package/fancy-log} for further information.
  * @param {callback} cb - The callback that handles the response.
  */
-function get_env(cb) {
+function getGitEnv(cb) {
 	exec("git rev-parse --abbrev-ref HEAD", function (err, stdout, stderr) {
 		const git__branch = stdout.replace(/(\r\n|\n|\r)/gm, ""),
 			regex__feature = new RegExp("feature/feature-*");
 
 		if (git__branch === "develop") {
 			log.info("👨‍💻 Develop Branch");
-			//isCompressing = false;
 		} else if (git__branch === "master") {
 			log.info("🌎 Master Branch");
-			//isCompressing = true;
 		} else if (regex__feature.test(git__branch) === true) {
 			log.info("✨ Feature Branch");
-			//isCompressing = true;
 		} else {
 			/**
 			 * @todo check for other branch names
 			 */
 			log.warn(`Unknown ${git__branch}, maybe hotfix?`);
-			//isCompressing = variables.settings.isCompressing;
 		}
+
+		if (isEnv === 'production') {
+			log.info("🌎 Production Environment");
+		} else {
+			log.info("👨‍💻 Development Environment");
+		}
+
 		if (stderr) log.error(stderr);
 		cb(err);
 	});
@@ -184,7 +169,7 @@ function get_env(cb) {
  * @see {@link https://www.npmjs.com/package/gulp-notify} for further information.
  * @param {any} err - error message
  */
-var onError = function (err) {
+let onError = function (err) {
 	notify.onError({
 		title: "Gulp",
 		subtitle: "Failure!",
@@ -196,7 +181,7 @@ var onError = function (err) {
 
 /**
  * Static server
- * @summary Static server browserSyncServe 
+ * @summary Static server browserSyncServe
  * @see {@link https://browsersync.io/docs/options} for further information.
  * @param {callback} cb - The callback that handles the response.
  */
@@ -218,7 +203,7 @@ function browserSyncServe(cb) {
 
 /**
  * Static server reload
- * @summary Reload Static server browserSyncReload 
+ * @summary Reload Static server browserSyncReload
  * @see {@link https://browsersync.io/docs/options} for further information.
  * @param {callback} cb - The callback that handles the response.
  */
@@ -236,8 +221,8 @@ function browserSyncReload(cb) {
  * @tutorial https://gulpjs.com/docs/en/api/dest/
  * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
  */
-function minify_html() {
-	var SRC = [
+function minifyHtml() {
+	let SRC = [
 		`${variables.config.sourceHTML}**/*.html`, //select all files
 		`!${variables.config.sourceHTML}**/partials/*.html`, //exclude files
 		`!${variables.config.sourceHTML}_old/*.html`, //exclude files
@@ -246,28 +231,28 @@ function minify_html() {
 
 	return (
 		src(SRC)
-		.pipe(
-			nunjucks.compile({
-				siteName: variables.data.siteName,
-				url: variables.data.url,
-			})
-		)
-		.pipe(
-			gulpif(
-				isCompressing,
-				htmlmin({
-					sortAttributes: true,
-					sortClassName: true,
-					collapseWhitespace: true,
-					removeComments: true,
-					minifyCSS: true,
-					minifyJS: true,
-					minifyURLs: true,
+			.pipe(
+				nunjucks.compile({
+					siteName: variables.data.siteName,
+					url: variables.data.url,
 				})
 			)
-		)
-		.pipe(dest(variables.config.targetHTML))
-		.pipe(gulpif(isServer, browsersync.stream()))
+			.pipe(
+				gulpif(
+					isEnv === 'production',
+					htmlmin({
+						sortAttributes: true,
+						sortClassName: true,
+						collapseWhitespace: true,
+						removeComments: true,
+						minifyCSS: true,
+						minifyJS: true,
+						minifyURLs: true,
+					})
+				)
+			)
+			.pipe(dest(variables.config.targetHTML))
+			.pipe(gulpif(isServer, browsersync.stream()))
 	);
 }
 
@@ -278,20 +263,20 @@ function minify_html() {
  * @tutorial https://gulpjs.com/docs/en/api/dest/
  * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
  */
-function build_scss() {
+function buildScss() {
 
-	var SRC = variables.config.sourceSCSS + '**/*.scss',
+	let SRC = variables.config.sourceSCSS + '**/*.scss',
 		DEST = variables.config.targetCSS,
 		DEST__MAP = "./map/";
 
-	var plugins = [
-		//tailwindcss("tailwind.config.js"),
+	let plugins = [
+		tailwindcss("tailwind.config.js"),
 		autoprefixer(),
 		//cssnano({zindex: false}),
 		atImport(),
 	];
 
-	var plugins__minify = [
+	let plugins__minify = [
 		cssnano({
 			safe: true,
 			minifyFontValues: {
@@ -304,70 +289,68 @@ function build_scss() {
 		}),
 	];
 
-	if (isCompressing === true) {
+	if (isEnv === 'production') {
 		// Src: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Operators/Spread_syntax
 		plugins.push(...plugins__minify);
 	}
 
 	return (
 		src(SRC)
-		//.pipe (changed (DEST))
-		.pipe(
-			gulpif(isDev, sourcemaps.init())
-			//gulpif (isDev, sourcemaps.init ({ loadMaps: true }))
-		)
-		.pipe(
-			scss({
-				outputStyle: "expanded",
-				// includePaths doesnt work with dart-sass (https://github.com/webpack-contrib/sass-loader/issues/684)
-				includePaths: [
-					`${__dirname}/node_modules/@fortawesome`,
-					`${__dirname}/node_modules/`,
-					'~/Developer/node_modules/',
-					'node_modules'
-				]
-			}).on("error", scss.logError)
-		)
-		/*.pipe(uncss({
-		      //html: ['src/html/** /*.html'],
-		      //html: ['src/html/*.html'],
-		      html: ['index.html'],
-		      ignore: [
-		        /\w\.in/,
-		        'hover', 'click', 'focus', '.glyphicon', '.glyphicon-play', '.glyphicon-refresh', '.glyphicon-chevron-right',
-		        ".fade",
-		        ".fade.in",
-		        ".collapse",
-		        ".collapse.in",
-		        ".collapsing",
-		        ".alert-danger",
-		        /\.open/
-		      ],
-		      timeout: 4000
-		  }))*/
-		.pipe(postcss(plugins))
-		.pipe(
-			plumber({
-				errorHandler: onError,
-			})
-		)
-		.pipe(
-			rename({
-				//prefix: "style-",
-				dirname: "/",
-				//suffix: ".min",
-				extname: ".css",
-			})
-		)
-		// replace placeholder date in scss file
-		// .pipe(replace('metadata__update-date', new Date().toLocaleString('de-DE', options)))
-		// Source: https://stackoverflow.com/a/34081095/14331711
-		.pipe(gulpif(isDev, replace(/@lastmodified:.*\n/g, `lastmodified:  ${new Date().toLocaleString('de-DE', options)}\n`)))
-		.pipe(gulpif(!isDev, replace(/@lastmodified:.*\n/g, '')))
-		//.pipe(gulpif(isDev, headerComment(`Generated on: <%= moment().format('DD.MM.YY') %>`)))
-		.pipe(gulpif(isDev, sourcemaps.write(DEST__MAP)))
-		.pipe(dest(DEST))
-		.pipe(gulpif(isServer, browsersync.stream()))
+			.pipe(
+				gulpif(isEnv !== 'production', sourcemaps.init())
+			)
+			.pipe(
+				scss({
+					outputStyle: "expanded",
+					// includePaths doesn't work with dart-sass (https://github.com/webpack-contrib/sass-loader/issues/684)
+					includePaths: [
+						`${__dirname}/node_modules/@fortawesome`,
+						`${__dirname}/node_modules/`,
+						'~/Developer/node_modules/',
+						'node_modules'
+					]
+				}).on("error", scss.logError)
+			)
+			/*.pipe(uncss({
+                  //html: ['src/html/** /*.html'],
+                  //html: ['src/html/*.html'],
+                  html: ['index.html'],
+                  ignore: [
+                    /\w\.in/,
+                    'hover', 'click', 'focus', '.glyphicon', '.glyphicon-play', '.glyphicon-refresh', '.glyphicon-chevron-right',
+                    ".fade",
+                    ".fade.in",
+                    ".collapse",
+                    ".collapse.in",
+                    ".collapsing",
+                    ".alert-danger",
+                    /\.open/
+                  ],
+                  timeout: 4000
+              }))*/
+			.pipe(postcss(plugins))
+			.pipe(
+				plumber({
+					errorHandler: onError,
+				})
+			)
+			.pipe(
+				rename({
+					//prefix: "style-",
+					dirname: "/",
+					//suffix: ".min",
+					extname: ".css",
+				})
+			)
+			// replace placeholder date in scss file
+			// .pipe(replace('metadata__update-date', new Date().toLocaleString('de-DE', dateOptions)))
+			// Source: https://stackoverflow.com/a/34081095/14331711
+			.pipe(gulpif(isEnv === 'production', replace(/@lastmodified:.*\n/g, `lastmodified:  ${new Date().toLocaleString('de-DE', dateOptions)}\n`)))
+			.pipe(gulpif(isEnv !== 'production', replace(/@lastmodified:.*\n/g, '')))
+			//.pipe(gulpif(isEnv !== 'production', headerComment(`Generated on: <%= moment().format('DD.MM.YY') %>`)))
+			.pipe(gulpif(isEnv !== 'production', sourcemaps.write(DEST__MAP)))
+			.pipe(dest(DEST))
+			.pipe(gulpif(isServer, browsersync.stream()))
 	);
 }
 
@@ -377,17 +360,17 @@ function build_scss() {
  * @tutorial https://github.com/vincentorback/WebP-images-with-htaccess
  * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
  */
-function minify_img() {
+function minifyImg() {
 
-	var SRC = `${variables.config.sourceFileadmin}user_upload/**/*.jpg`,
+	let SRC = `${variables.config.sourceFileadmin}user_upload/**/*.jpg`,
 		DEST = `${variables.config.sourceFileadmin}minified/webp/`;
 
 	return (
 		src(SRC)
-		.pipe(changed(DEST))
-		//.pipe(changed(DEST, { extension: `.${extension}` }))
-		.pipe(webp())
-		.pipe(dest(DEST))
+			.pipe(changed(DEST))
+			//.pipe(changed(DEST, { extension: `.${extension}` }))
+			.pipe(webp())
+			.pipe(dest(DEST))
 	);
 }
 
@@ -397,8 +380,8 @@ function minify_img() {
  * @tutorial https://www.npmjs.com/package/gulp-typescript
  * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
  */
-function compile_ts() {
-	var SRC = [
+function compileTs() {
+	let SRC = [
 		`${variables.config.sourceTS}**/*.ts`, //select all files
 		`!${variables.config.sourceTS}**/*.min.ts`, //exclude files ends with 'min.ts'
 		`!${variables.config.sourceTS}**/_*.ts`, //exclude files starting with '_'
@@ -406,26 +389,26 @@ function compile_ts() {
 		`!${variables.config.sourceJS}**/* copy.ts`, //exclude files ending with copy
 	];
 
-	var DEST = variables.config.targetJS,
+	let DEST = variables.config.targetJS,
 		DEST__MAP = "./map/";
 
 	return (
 		src(SRC)
-		//.pipe (changed (DEST))
-		.pipe(
-			gulpif(isDev, sourcemaps.init())
-		)
-		.pipe(ts(tsconfig.compilerOptions))
-		.pipe(
-			rename({
-				dirname: "/",
-				extname: ".min.js",
-			})
-		)
-		.pipe(gulpif(isDev, headerComment(`Generated on: <%= moment().format('DD.MM.YY') %>`)))
-		.pipe(gulpif(isDev, sourcemaps.write(DEST__MAP)))
-		.pipe(dest(DEST))
-		.pipe(gulpif(isServer, browsersync.stream()))
+			//.pipe (changed (DEST))
+			.pipe(
+				gulpif(isEnv !== 'production', sourcemaps.init())
+			)
+			.pipe(ts(tsconfig.compilerOptions))
+			.pipe(
+				rename({
+					dirname: "/",
+					extname: ".min.js",
+				})
+			)
+			.pipe(gulpif(isEnv !== 'production', headerComment(`Generated on: <%= moment().format('DD.MM.YY') %>`)))
+			.pipe(gulpif(isEnv !== 'production', sourcemaps.write(DEST__MAP)))
+			.pipe(dest(DEST))
+			.pipe(gulpif(isServer, browsersync.stream()))
 	);
 }
 
@@ -434,8 +417,8 @@ function compile_ts() {
  * @summary Minify JavaScript-Files
  * @returns {Stream} - A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
  */
-function minify_js() {
-	var SRC = [
+function minifyJs() {
+	let SRC = [
 		`${variables.config.sourceJS}**/*.js`, //select all files
 		`!${variables.config.sourceJS}**/*.min.js`, //exclude files ends with 'min.js'
 		`!${variables.config.sourceJS}**/_*.js`, //exclude files starting with '_'
@@ -443,7 +426,7 @@ function minify_js() {
 		`!${variables.config.sourceJS}**/* copy.js`, //exclude files ending with copy
 	];
 
-	var DEST = variables.config.targetJS,
+	let DEST = variables.config.targetJS,
 		DEST__MAP = "./map/";
 
 	return (
@@ -452,62 +435,61 @@ function minify_js() {
 				exceptionMessage: "Please run `bower/npm install` to install missing library",
 			})
 		)
-		.pipe(
-			jsImport({
-				hideConsole: true,
-			})
-		)
-		//.pipe (changed (DEST))
-		.pipe(
-			gulpif(isDev, sourcemaps.init())
-		)
-		.pipe(
-			plumber({
-				errorHandler: onError,
-			})
-		)
-		.pipe(
-			preprocess({
-				context: variables.data,
-				/*context: {
-				NODE_ENV: 'production',
-				DEBUG: true,
-			  }*/
-			})
-		)
-		.pipe(
-			gulpif(
-				isCompressing,
-				babel({
-					presets: ["@babel/env"],
+			.pipe(
+				jsImport({
+					hideConsole: true,
 				})
 			)
-		)
-		.pipe(
-			gulpif(
-				isCompressing,
-				uglify({
-					mangle: true,
-					compress: {
-						drop_console: true,
-					},
+			.pipe(
+				gulpif(isEnv !== 'production', sourcemaps.init())
+			)
+			.pipe(
+				plumber({
+					errorHandler: onError,
 				})
 			)
-		)
-		.on("error", (err) => {
-			log(err.toString());
-		})
-		//.pipe(concat('scripts.js'))
-		.pipe(
-			rename({
-				dirname: "/",
-				extname: ".min.js",
+			.pipe(
+				preprocess({
+					context: variables.data,
+					/*context: {
+                    NODE_ENV: 'production',
+                    DEBUG: true,
+                  }*/
+				})
+			)
+			.pipe(
+				gulpif(
+					isEnv === 'production',
+					babel({
+						presets: ["@babel/env"],
+					})
+				)
+			)
+			.pipe(
+				gulpif(
+					isEnv === 'production',
+					uglify({
+						mangle: true,
+						compress: {
+							drop_console: true,
+						},
+					})
+				)
+			)
+			.on("error", (err) => {
+				log(err.toString());
 			})
-		)
-		.pipe(gulpif(isDev, headerComment(`Generated on: <%= moment().format('DD.MM.YY') %>`)))
-		.pipe(gulpif(isDev, sourcemaps.write(DEST__MAP)))
-		.pipe(dest(DEST))
-		.pipe(gulpif(isServer, browsersync.stream()))
+			//.pipe(concat('scripts.js'))
+			.pipe(
+				rename({
+					dirname: "/",
+					extname: ".min.js",
+				})
+			)
+			.pipe(gulpif(isEnv !== 'production', headerComment(`Generated on: <%= moment().format('DD.MM.YY') %>`)))
+			.pipe(gulpif(isEnv !== 'production', sourcemaps.write(DEST__MAP)))
+			.pipe(dest(DEST))
+			.pipe(gulpif(isServer, browsersync.stream()))
 	);
 }
 
@@ -519,11 +501,11 @@ function minify_js() {
 function watchFiles(cb) {
 
 	if (isServer === true) {
-		watch(`${variables.config.sourceSCSS}**/*.scss`, series(build_scss, browserSyncReload));
-		watch(`${variables.config.sourceHTML}**/*.html`, series(minify_html, browserSyncReload));
+		watch(`${variables.config.sourceSCSS}**/*.scss`, series(buildScss, browserSyncReload));
+		watch(`${variables.config.sourceHTML}**/*.html`, series(minifyHtml, browserSyncReload));
 	} else {
-		watch(`${variables.config.sourceSCSS}**/*.scss`, build_scss);
-		watch(`${variables.config.sourceHTML}**/*.html`, minify_html);
+		watch(`${variables.config.sourceSCSS}**/*.scss`, buildScss);
+		watch(`${variables.config.sourceHTML}**/*.html`, minifyHtml);
 	}
 
 	// Watch TS Files
@@ -534,7 +516,7 @@ function watchFiles(cb) {
 			`!${variables.config.sourceTS}**/_*.ts`, //exclude files starting with '_'
 			`!${variables.config.sourceTS}**/__*.ts`, //exclude files starting with '__'
 		],
-		compile_ts
+		compileTs
 	);
 
 	// Watch JS Files
@@ -545,7 +527,7 @@ function watchFiles(cb) {
 			`!${variables.config.sourceJS}**/_*.js`, //exclude files starting with '_'
 			`!${variables.config.sourceJS}**/__*.js`, //exclude files starting with '__'
 		],
-		minify_js
+		minifyJs
 	);
 
 	cb()
@@ -553,10 +535,10 @@ function watchFiles(cb) {
 
 // define complex tasks
 if (isServer === true) {
-	build = series(get_env, clean, browserSyncServe, parallel(build_scss, minify_js, compile_ts, minify_html, minify_img, watchFiles));
+	build = series(getGitEnv, clean, browserSyncServe, parallel(buildScss, minifyJs, compileTs, minifyHtml, minifyImg, watchFiles));
 	exports.watch = parallel(watchFiles, browserSyncServe);
 } else {
-	build = series(get_env, clean, parallel(build_scss, minify_js, compile_ts, minify_html, minify_img, watchFiles));
+	build = series(getGitEnv, clean, parallel(buildScss, minifyJs, compileTs, minifyHtml, minifyImg, watchFiles));
 	exports.watch = watchFiles;
 }
 
@@ -565,8 +547,8 @@ exports.build = build;
 exports.default = build;
 
 exports.clean = clean;
-exports.html = minify_html;
-exports.ts = compile_ts;
-exports.js = minify_js;
-exports.img = minify_img;
-exports.css = build_scss;
+exports.html = minifyHtml;
+exports.ts = compileTs;
+exports.js = minifyJs;
+exports.img = minifyImg;
+exports.css = buildScss;

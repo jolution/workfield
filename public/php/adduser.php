@@ -17,6 +17,8 @@ if( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['righ
     //$secure_pass = password_hash($password, PASSWORD_BCRYPT);
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+
+
     // pwd = password
     $sql = sprintf("REPLACE INTO `users` (`username`, `pwd`, `rights`) VALUES ('%s', '%s', '%s');",$username,$hashed_password,$rights);
 

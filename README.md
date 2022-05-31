@@ -1,10 +1,8 @@
-
                                 ______ ____________     ______________
          ___      _________________  /____  __/__(_)_______  /_____  /
          __ | /| / /  __ \_  ___/_  //_/_  /_ __  /_  _ \_  /_  __  / 
          __ |/ |/ // /_/ /  /   _  ,<  _  __/ _  / /  __/  / / /_/ /  
          ____/|__/ \____//_/    /_/|_| /_/    /_/  \___//_/  \__,_/   
-
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
@@ -84,11 +82,13 @@ rights=1 (Admin User)
 -> Home, Add User, List Users, List Work "of all" (with edit & delete funktion)
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
@@ -98,19 +98,22 @@ npm run build
 ```
 ssh root@IP
 cd /var/www/vhosts/example.de/folder/
-chown user.name:psaserv . -R
+chown USERNAME:psaserv . -R
 clear && npm run build && npm run serve
 ```
 
 ### Lints and fixes files
+
 ```
 npm run lint
 ```
 
 ### To start the sever, run the following command in the terminal.
+
 node index.mjs
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Color Reference
@@ -120,11 +123,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 | White | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff |
 | Black | ![#000](https://via.placeholder.com/10/000?text=+) #000 |
 
-
 ## Authors
 
 - [@jolutionDE](https://github.com/jolution)
-
 
 ## Contributing
 
@@ -139,6 +140,7 @@ Please make sure to update tests as appropriate.
 
 ## Roadmap
 
+- [ ] Add mobile Support / Responsive
 - [x] Cleanup: Remove unneeded comment-lines
 - [ ] Add Files from CDN to local
 - [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
@@ -158,7 +160,7 @@ Please make sure to update tests as appropriate.
 - [ ] Query security -> mysqli_real_escape_string() and "?" param in SQL
 - [ ] Add Email reminder to add time (see https://www.freecodecamp.org/news/send-emails-from-your-vue-application/)
 - [ ] Integrate node.js
-- [ ] Add mobile Menu
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
