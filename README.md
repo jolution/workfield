@@ -122,6 +122,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 |-------|---------------------------------------------------------|
 | White | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff |
 | Black | ![#000](https://via.placeholder.com/10/000?text=+) #000 |
+| Blue  | ![#6366f1](https://via.placeholder.com/10/6366f1?text=+) #6366f1 |
 
 ## Authors
 
