@@ -118,11 +118,15 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Color Reference
 
-| Color | Hex                                                     |
-|-------|---------------------------------------------------------|
-| White | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff |
-| Black | ![#000](https://via.placeholder.com/10/000?text=+) #000 |
-| Blue  | ![#6366f1](https://via.placeholder.com/10/6366f1?text=+) #6366f1 |
+| Color      | Hex                                                        |
+|------------|------------------------------------------------------------|
+| White      | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff    |
+| Slate-200  | ![#e2e8f0](https://via.placeholder.com/10/e2e8f0?text=+) #e2e8f0 |
+| Black      | ![#000](https://via.placeholder.com/10/000?text=+) #000    |
+| Indigo-500 | ![#6366f1](https://via.placeholder.com/10/6366f1?text=+) #6366f1 |
+| Gray-300   | ![#d1d5db](https://via.placeholder.com/10/d1d5db?text=+) #d1d5db |
+| Gray-700   | ![#334155](https://via.placeholder.com/10/334155?text=+) #334155 |
+| Gray-800   | ![#2d3748](https://via.placeholder.com/10/2d3748?text=+) #2d3748 |
 
 ## Authors
 
