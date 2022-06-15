@@ -1,8 +1,4 @@
-                                ______ ____________     ______________
-         ___      _________________  /____  __/__(_)_______  /_____  /
-         __ | /| / /  __ \_  ___/_  //_/_  /_ __  /_  _ \_  /_  __  / 
-         __ |/ |/ // /_/ /  /   _  ,<  _  __/ _  / /  __/  / / /_/ /  
-         ____/|__/ \____//_/    /_/|_| /_/    /_/  \___//_/  \__,_/   
+![Logo](./src/assets/img/workfield-logo.svg)
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
@@ -150,9 +146,9 @@ Please make sure to update tests as appropriate.
 - [ ] Add Files from CDN to local
 - [ ] When deleting the user, issue a warning message that the user's data will be deleted as well.
 - [ ] When deleting the user, delete the user's data as well.
-- [ ] Add new Logo
+- [x] Add new Logo
 - [ ] Add Favicons
-- [ ] Add new Colors
+- [x] Add new Colors
 - [ ] Add new Names
 - [ ] Add Credits
 - [ ] Add Sponsors Possibility
@@ -165,6 +161,7 @@ Please make sure to update tests as appropriate.
 - [ ] Query security -> mysqli_real_escape_string() and "?" param in SQL
 - [ ] Add Email reminder to add time (see https://www.freecodecamp.org/news/send-emails-from-your-vue-application/)
 - [ ] Integrate node.js
+- [ ] Add Docker
 
 ## License
 
