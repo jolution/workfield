@@ -2,12 +2,12 @@
  * @file This is my gulpfile
  * @author Julian Kasimir <info@jolution.de>
  * @copyright Jolution 2022
- * @version 1.2 - 30.04.2022
+ * @version 1.2 - 14.05.2022
  * @license MIT
  * @see {@link https://gist.github.com/jolution/9b2abbd53a326b8f1b2a13403f12e16f} Source (Github Gist)
  * @see {@link https://gist.github.com/jolution/15fc7fbf72530caeef0dbe27d8e2e17d} variables.json (Github Gist)
  * @see {@link https://gist.github.com/jolution/872214c27f9e9e36a718c48ae3853876} tsconfig.json (Github Gist)
- * @see {@link https://gist.github.com/jolution/139d0f848358a689dbe32ff57836c2ef} tailwind.sconfig.js (Github Gist)
+ * @see {@link https://gist.github.com/jolution/139d0f848358a689dbe32ff57836c2ef} tailwind.config.js (Github Gist)
  */
 
 /* jshint node: true */
@@ -136,7 +136,9 @@ function clean(cb) {
 function getGitEnv(cb) {
 	exec("git rev-parse --abbrev-ref HEAD", function (err, stdout, stderr) {
 		const git__branch = stdout.replace(/(\r\n|\n|\r)/gm, ""),
-			regex__feature = new RegExp("feature/feature-*");
+			regex__feature = new RegExp("feature/feature-*"),
+			regex__release = new RegExp("release\/v(.*)"),
+			regex__hotfix = new RegExp("hotfix/hotfix-*");
 
 		if (git__branch === "develop") {
 			log.info("👨‍💻 Develop Branch");
@@ -144,11 +146,15 @@ function getGitEnv(cb) {
 			log.info("🌎 Master Branch");
 		} else if (regex__feature.test(git__branch) === true) {
 			log.info("✨ Feature Branch");
+		} else if (regex__release.test(git__branch) === true) {
+			log.info("🏷️ Release Branch");
+		} else if (regex__hotfix.test(git__branch) === true) {
+			log.info("👨‍🏭 Hotfix Branch");
 		} else {
 			/**
 			 * @todo check for other branch names
 			 */
-			log.warn(`Unknown ${git__branch}, maybe hotfix?`);
+			log.warn(`❓ Unknown Branch: ${git__branch}`);
 		}
 
 		if (isEnv === 'production') {
