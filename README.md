@@ -19,6 +19,7 @@
     - [Authors](#authors)
     - [Contributing](#contributing)
     - [Roadmap](#roadmap)
+    - [Sponsor](#sponsor)
     - [License](#license)
 
 <!-- /TOC -->
@@ -151,7 +152,7 @@ Please make sure to update tests as appropriate.
 - [x] Add new Colors
 - [ ] Add new Names
 - [ ] Add Credits
-- [ ] Add Sponsors Possibility
+- [x] Add Sponsor
 - [ ] Add requirement docs
 - [ ] Maybe add user stories
 - [ ] Login Error only shows in Console not in Browser
@@ -162,6 +163,12 @@ Please make sure to update tests as appropriate.
 - [ ] Add Email reminder to add time (see https://www.freecodecamp.org/news/send-emails-from-your-vue-application/)
 - [ ] Integrate node.js
 - [ ] Add Docker
+
+## Sponsor
+
+Many thanks to JetBrains, which provided us with a yearly license for all their programs for the open source work on this project.
+
+<img style="max-width: 50px" src="https://resources.jetbrains.com/storage/products/company/brand/logos/WebStorm_icon.png" alt="WebStorm logo.">
 
 ## License
 
