@@ -168,7 +168,7 @@ Please make sure to update tests as appropriate.
 
 Many thanks to JetBrains, which provided us with a yearly license for all their programs for the open source work on this project.
 
-<img style="max-width: 50px" src="https://resources.jetbrains.com/storage/products/company/brand/logos/WebStorm_icon.png" alt="WebStorm logo.">
+<img style="max-width: 50px" width="50" src="https://resources.jetbrains.com/storage/products/company/brand/logos/WebStorm_icon.png" alt="WebStorm logo.">
 
 ## License
 
