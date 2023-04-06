@@ -33,6 +33,28 @@ Easy possibles, just one (input) field and a button.
 Warning: Early alpha version.
 Feel free to [contribute](#contributing).
 
+## ⚠️ Wichtiger Hinweis
+
+Bitte beachten Sie, dass dieses Projekt aufgrund seiner aktuellen Natur derzeit nicht weiterentwickelt wird. Es wurde entwickelt, um die Arbeitszeitverwaltung von Mitarbeitern zu erleichtern, jedoch entspricht es nicht mehr den aktuellen gesetzlichen Anforderungen in Deutschland. Aus diesem Grund wird das Projekt vorübergehend nicht aktualisiert oder gewartet.
+
+Wenn Sie diese Anwendung in Deutschland verwenden möchten, stellen Sie bitte sicher, dass Sie die aktuellen gesetzlichen Anforderungen berücksichtigen. Wenn Sie diese Anwendung in einem anderen Land verwenden möchten, sollten Sie die geltenden Gesetze und Vorschriften in diesem Land sorgfältig prüfen, um festzustellen, ob sie immer noch für Ihre Bedürfnisse geeignet ist. Wir empfehlen Ihnen dringend, sich mit einem Experten oder einer Expertin in diesem Bereich zu beraten, um sicherzustellen, dass Ihre Arbeitszeitverwaltung den aktuellen gesetzlichen Anforderungen entspricht.
+
+## 📌 Anmerkung
+
+Bitte beachten Sie, dass das Projekt derzeit nicht weiterentwickelt wird. Wir bedauern die entstandenen Unannehmlichkeiten und hoffen, in Zukunft wieder an der Entwicklung arbeiten zu können. In der Zwischenzeit empfehlen wir Ihnen, sich nach Alternativen umzusehen, die den aktuellen gesetzlichen Anforderungen in Deutschland entsprechen.
+
+
+## ⚠️ Important Notice
+
+Please note that this project is currently not being further developed due to its current nature. It was developed to facilitate the management of employee working hours, but it no longer complies with the current legal requirements in Germany. As a result, the project will be temporarily suspended and not updated or maintained.
+
+If you intend to use this application in Germany, please make sure that you consider the current legal requirements. If you intend to use this application in another country, you should carefully review the applicable laws and regulations in that country to determine whether it is still suitable for your needs. We strongly recommend that you consult with legal experts in this area to ensure that your employee working hour management complies with the relevant legal requirements.
+
+## 📌 Note
+
+Please note that the project is currently not being further developed. We apologize for any inconvenience this may cause and hope to be able to resume development in the future. In the meantime, we recommend that you look for alternatives that comply with the current legal requirements in Germany. 
+
+
 ## Installation
 
 ```bash
